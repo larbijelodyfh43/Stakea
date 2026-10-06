@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Billabong';
+        src: url('data:font/woff2;charset=utf-8;base64,') format('woff2');
+      }
+    </style>
+  </defs>
+  <text x="5" y="110" fill="white" font-family="'Segoe Script','Brush Script MT','Dancing Script',cursive" font-size="100" font-weight="400" letter-spacing="-2">Instagram</text>
+</svg>

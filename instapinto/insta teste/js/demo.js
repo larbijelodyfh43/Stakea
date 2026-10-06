@@ -1,0 +1,44 @@
+(() => {
+  'use strict';
+  const pending = new Map();
+  window.demoEscape = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
+
+  window.fetchPublicProfile = async username => {
+    const clean = String(username ?? '').trim().replace(/^@+/, '').toLowerCase();
+    if (!/^[a-z0-9_.]{1,30}$/.test(clean)) throw new Error('Informe um @ válido (até 30 caracteres).');
+    if (pending.has(clean)) return pending.get(clean);
+    const request = (async () => {
+      let response;
+      try {
+        response = await fetch('/api/profile', {
+          method: 'POST', headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({username: clean}), signal: AbortSignal.timeout(65000)
+        });
+      } catch (error) {
+        throw new Error(error.name === 'TimeoutError'
+          ? 'A consulta demorou demais. Tente novamente.'
+          : 'Não foi possível conectar ao servidor local. Verifique se ele está ativo.');
+      }
+      let data;
+      try { data = await response.json(); }
+      catch { throw new Error('O servidor retornou uma resposta inválida.'); }
+      if (!response.ok) throw new Error(data.error || `Não foi possível consultar o perfil (HTTP ${response.status}).`);
+      if (!data.profile?.username) throw new Error('O servidor retornou um perfil incompleto.');
+      return data.profile;
+    })();
+    pending.set(clean, request);
+    try { return await request; } finally { pending.delete(clean); }
+  };
+
+  window.getProxyImageUrlLight = url => {
+    try {
+      const image = new URL(url, window.location.href);
+      if (image.origin === window.location.origin && /^\/(api\/image\/|images\/)/.test(image.pathname)) return image.href;
+    } catch {}
+    return '/images/perfil-sem-foto.svg';
+  };
+  window.getProxyImageUrl = window.getProxyImageUrlLight;
+
+})();

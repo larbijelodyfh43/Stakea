@@ -1,0 +1,508 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head><link rel="stylesheet" href="/css/demo.css"><script src="/js/demo.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Stalkea.ai - Acesso VIP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#08070c; --card:#131218; --card2:#17161d; --line:rgba(255,255,255,.07);
+  --ink:#f5f4f8; --ink2:#b9b5c6; --ink3:#8d88a0; --ink4:#6a6580;
+  --rox:#7c5cf5; --rox2:#9b6ff7; --rox3:#b98bfa;
+  --grad:linear-gradient(90deg,#a06ef8,#6f4ef2);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  min-height:100vh;padding:0 0 118px;overflow-x:hidden}
+
+/* fundo animado de letras */
+#chuva{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+.conteudo{position:relative;z-index:1;width:100%;max-width:1180px;margin:0 auto;padding:34px 18px 0}
+
+.marca{display:flex;flex-direction:column;align-items:center;margin-bottom:26px}
+.marca img{width:108px;height:auto;display:block}
+
+h1.tit{text-align:center;font-size:clamp(28px,5vw,42px);font-weight:800;line-height:1.16;
+  letter-spacing:-.5px;text-wrap:balance;margin-bottom:30px}
+h1.tit span{color:var(--rox3)}
+
+/* card do perfil */
+.perfil{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 28px}
+.perfil .topo{display:flex;align-items:flex-start;gap:26px;flex-wrap:wrap}
+.perfil .foto{width:96px;height:96px;border-radius:50%;padding:3px;flex-shrink:0;
+  background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)}
+.perfil .foto img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;background:var(--card2)}
+.perfil .quem{flex:1;min-width:200px}
+.perfil .nome{font-size:22px;font-weight:700;line-height:1.2}
+.perfil .arroba{color:var(--ink3);font-size:14.5px;margin-top:2px}
+.nums{display:flex;gap:clamp(28px,7vw,86px);margin-top:16px;flex-wrap:wrap}
+.nums .n{text-align:center}
+.nums .n b{display:block;font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+.nums .n span{font-size:13.5px;color:var(--ink3)}
+.perfil .bio{margin-top:20px;font-size:14.5px;color:var(--ink2);line-height:1.55;white-space:pre-line}
+
+/* faixa "espionagem finalizada" */
+.faixa{margin-top:26px;border-radius:16px;padding:22px 20px;text-align:center;
+  background:linear-gradient(180deg,rgba(124,92,245,.20),rgba(124,92,245,.07));
+  border:1px solid rgba(124,92,245,.42);font-size:16.5px;font-weight:700;line-height:1.5}
+.seta{display:block;margin:26px auto;width:22px;height:22px;color:var(--ink2);animation:pula 1.8s ease-in-out infinite}
+@keyframes pula{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+@media (prefers-reduced-motion:reduce){.seta{animation:none}}
+
+/* blocos de recurso */
+.bloco{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px 24px;margin-top:22px}
+.bh{display:flex;align-items:center;justify-content:center;gap:10px;font-size:19px;font-weight:700}
+.bh svg{width:21px;height:21px;color:var(--rox2);flex-shrink:0}
+.bs{margin-top:8px;text-align:center;color:var(--ink3);font-size:14.5px;line-height:1.55}
+.divisor{height:1px;background:var(--line);margin:30px 0}
+
+/* localizacao */
+.mapa{width:100%;max-width:376px;margin:22px auto 0;border-radius:14px;overflow:hidden;
+  background:var(--card2);border:1px solid var(--line)}
+.mapa .vista{position:relative;height:176px;background:#e8e6e1;overflow:hidden}
+.mapa .vista i{position:absolute;background:#fff}
+.mapa .vista .h1_{left:0;right:0;height:13px;top:52px}
+.mapa .vista .h2_{left:0;right:0;height:9px;top:128px}
+.mapa .vista .v1_{top:0;bottom:0;width:12px;left:88px}
+.mapa .vista .v2_{top:0;bottom:0;width:9px;left:236px}
+.mapa .vista .d1_{top:-30px;left:270px;width:15px;height:260px;transform:rotate(38deg);transform-origin:top}
+.mapa .vista .parque{background:#dfe9d5;left:104px;top:66px;width:120px;height:56px}
+.mapa .pino{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;
+  border-radius:50%;border:3px solid #fff;overflow:hidden;box-shadow:0 3px 14px rgba(0,0,0,.35)}
+.mapa .pino img{width:100%;height:100%;object-fit:cover;display:block}
+.mapa .pe{padding:16px}
+.mapa .pe b{font-size:15.5px;font-weight:600}
+.mapa .pe span{display:block;color:var(--ink3);font-size:13.5px;margin-top:3px}
+.mapa .pe button{margin-top:14px;width:100%;height:42px;border:0;border-radius:9px;background:#26242e;
+  color:var(--ink);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.mapa .pe button:hover{background:#2f2d39}
+
+/* midias bloqueadas */
+.midias{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+.mid{position:relative;height:190px;border-radius:13px;overflow:hidden;
+  border:1px solid var(--line);background:#1b1a21}
+.mid .bl{position:absolute;inset:-16%;filter:blur(17px)}
+.mid .cad{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:31px;height:31px;color:#fff;
+  filter:drop-shadow(0 2px 7px rgba(0,0,0,.6))}
+@media(max-width:660px){.midias{gap:8px}.mid{height:124px}}
+
+/* stories bloqueados */
+.trancados{display:flex;gap:16px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.tranca{position:relative;width:184px;height:320px;border-radius:16px;overflow:hidden;
+  border:1px solid var(--line);background:#1c1a22}
+.tranca .fundo{position:absolute;inset:0;filter:blur(17px);transform:scale(1.15);opacity:.85}
+.tranca .barra{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;
+  gap:7px;padding:0 10px;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent)}
+.tranca .barra .av{width:19px;height:19px;border-radius:50%;background:#4a4754}
+.tranca .barra .tx{width:52px;height:7px;border-radius:4px;background:rgba(255,255,255,.30)}
+.tranca .barra .pt{margin-left:auto;width:8px;height:8px;border-radius:50%;background:#3ddc84}
+.tranca .meio{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:11px}
+.tranca .meio svg{width:34px;height:34px;color:#fff}
+.tranca .meio span{font-size:13px;color:rgba(255,255,255,.92);font-weight:500}
+
+/* direct */
+.chat{width:100%;max-width:462px;margin:22px auto 0;border-radius:14px;overflow:hidden;
+  background:var(--card2);border:1px solid var(--line)}
+.chat .cab{display:flex;align-items:center;gap:11px;padding:13px 15px;border-bottom:1px solid var(--line)}
+.chat .cab img{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#2a2833}
+.chat .cab b{font-size:14.5px;font-weight:600;display:block}
+.chat .cab .on{font-size:12.5px;color:#3ddc84;display:flex;align-items:center;gap:5px;margin-top:1px}
+.chat .cab .on i{width:6px;height:6px;border-radius:50%;background:#3ddc84}
+.chat .cab .ic{margin-left:auto;display:flex;gap:15px;color:var(--ink2)}
+.chat .cab .ic svg{width:21px;height:21px}
+.chat .corpo{padding:20px 15px;display:flex;flex-direction:column;gap:15px}
+.balao{max-width:82%;padding:12px 16px;border-radius:19px;font-size:14.5px;line-height:1.45}
+.balao.dele{align-self:flex-start;background:#2c2a35;border-bottom-left-radius:6px}
+.balao.meu{align-self:flex-end;background:var(--grad);border-bottom-right-radius:6px;font-weight:600;
+  cursor:pointer;border:0;font-family:inherit;color:#fff}
+
+/* preco */
+.oferta{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:34px 24px;margin-top:22px}
+.oferta .chamada{text-align:center;font-size:17.5px;font-weight:600;line-height:1.5;margin:18px 0 24px;text-wrap:balance}
+.oferta .chamada span{color:var(--rox3)}
+.caixa{border:1px solid var(--line);border-radius:16px;padding:26px 20px;text-align:center;background:rgba(255,255,255,.015)}
+.de{color:var(--ink4);font-size:15px;text-decoration:line-through}
+.por{margin-top:7px;font-size:clamp(42px,9vw,56px);font-weight:800;color:var(--rox3);line-height:1;letter-spacing:-1.5px}
+.por small{font-size:.42em;font-weight:700;letter-spacing:0}
+.selos{margin-top:20px;display:flex;flex-wrap:wrap;justify-content:center;gap:11px 26px}
+.selos i{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--ink2);font-style:normal}
+.selos i svg{width:14px;height:14px;color:var(--rox2);flex-shrink:0}
+
+.itens{margin-top:20px;display:flex;flex-direction:column;gap:11px}
+.item{display:flex;align-items:center;gap:13px;background:var(--card2);border:1px solid var(--line);
+  border-radius:13px;padding:16px 18px;font-size:14.5px;color:var(--ink2)}
+.item svg{width:17px;height:17px;color:var(--rox2);flex-shrink:0}
+
+.cta{margin-top:24px;display:block;width:100%;border:0;border-radius:16px;padding:22px 18px;
+  background:var(--grad);color:#fff;font-family:inherit;cursor:pointer;text-align:center;
+  text-decoration:none;box-shadow:0 0 36px rgba(124,92,245,.42)}
+.cta b{display:block;font-size:19px;font-weight:800}
+.cta span{display:block;margin-top:5px;font-size:13.5px;opacity:.92;font-weight:500}
+.cta:hover{filter:brightness(1.07)}
+
+/* barra fixa */
+.rodape{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#141319;
+  border-top:1px solid var(--line);padding:15px 18px;display:flex;align-items:center;
+  justify-content:space-between;gap:16px}
+.rodape .txt b{display:block;font-size:14.5px;font-weight:700}
+.rodape .txt b i{font-style:normal;font-variant-numeric:tabular-nums;color:var(--rox3)}
+.rodape .txt span{display:block;font-size:13.5px;color:var(--ink2);margin-top:3px;line-height:1.4}
+.rodape a{flex-shrink:0;background:var(--grad);color:#fff;border-radius:11px;padding:13px 22px;
+  font-size:14px;font-weight:700;text-align:center;line-height:1.28;text-decoration:none}
+.rodape a:hover{filter:brightness(1.07)}
+@media(max-width:660px){
+  .rodape{padding:12px 14px;gap:11px}
+  .rodape .txt b{font-size:13px}
+  .rodape .txt span{font-size:11.5px}
+  .rodape a{padding:11px 15px;font-size:13px}
+  .perfil{padding:20px 18px}
+  .perfil .topo{gap:18px}
+  .bloco,.oferta{padding:24px 17px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="chuva"></canvas>
+
+<div class="conteudo">
+
+  <div class="marca">
+    <img src="/images/logo-stalkea.png" alt="Stalkea.ai" width="108" height="68" fetchpriority="high">
+  </div>
+
+  <h1 class="tit">A maior ferramenta<br>de <span>Stalker</span> do Brasil</h1>
+
+  <!-- PERFIL -->
+  <section class="perfil">
+    <div class="topo">
+      <div class="foto"><img id="pFoto" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"></div>
+      <div class="quem">
+        <div class="nome" id="pNome">&nbsp;</div>
+        <div class="arroba" id="pArroba">&nbsp;</div>
+        <div class="nums">
+          <div class="n"><b id="pPosts">-</b><span>posts</span></div>
+          <div class="n"><b id="pSeg">-</b><span>seguidores</span></div>
+          <div class="n"><b id="pSeguindo">-</b><span>seguindo</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="bio" id="pBio"></div>
+  </section>
+
+  <div class="faixa">
+    Espionagem 100% finalizada! &#129395;<br>
+    Adquira seu acesso VIP e tenha acesso imediatamente a:
+  </div>
+
+  <svg class="seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <path d="M12 5v14M6 13l6 6 6-6"></path>
+  </svg>
+
+  <!-- MIDIAS -->
+  <section class="bloco">
+    <div class="bh">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <rect x="6" y="2" width="12" height="20" rx="2.5"></rect><path d="M11 18.5h2"></path>
+      </svg>
+      Veja Mídias de <span class="alvo">&nbsp;</span>
+    </div>
+    <p class="bs">Veja todas as mídias recebidas e enviadas, incluindo itens apagados.</p>
+
+    <div class="midias">
+      <div class="mid"><div class="bl" style="background:radial-gradient(38% 44% at 43% 33%,rgba(199,161,123,.95),transparent 68%),radial-gradient(31% 37% at 66% 63%,rgba(141,105,75,.88),transparent 70%),radial-gradient(13% 15% at 27% 21%,rgba(234,208,174,.72),transparent 72%),radial-gradient(120% 120% at 50% 50%,transparent 40%,rgba(0,0,0,.62) 100%),linear-gradient(158deg,#6b4e37,#3d2c1f 58%,#221812)"></div><svg class="cad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.4"></rect><path d="M8 10V7a4 4 0 1 1 8 0v3"></path></svg></div>
+      <div class="mid"><div class="bl" style="background:radial-gradient(34% 40% at 57% 45%,rgba(122,126,136,.55),transparent 70%),radial-gradient(15% 17% at 33% 29%,rgba(198,206,218,.42),transparent 74%),radial-gradient(27% 31% at 72% 75%,rgba(56,60,70,.9),transparent 72%),radial-gradient(120% 120% at 50% 50%,transparent 34%,rgba(0,0,0,.8) 100%),linear-gradient(168deg,#24262c,#131417 60%,#0b0c0e)"></div><svg class="cad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.4"></rect><path d="M8 10V7a4 4 0 1 1 8 0v3"></path></svg></div>
+      <div class="mid"><div class="bl" style="background:radial-gradient(40% 46% at 51% 39%,rgba(199,125,102,.93),transparent 68%),radial-gradient(26% 31% at 29% 69%,rgba(149,72,57,.88),transparent 72%),radial-gradient(12% 14% at 71% 23%,rgba(241,197,170,.68),transparent 74%),radial-gradient(120% 120% at 50% 50%,transparent 38%,rgba(0,0,0,.6) 100%),linear-gradient(148deg,#7b4232,#4a2419 58%,#2a140f)"></div><svg class="cad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2.4"></rect><path d="M8 10V7a4 4 0 1 1 8 0v3"></path></svg></div>
+    </div>
+  </section>
+
+  <!-- LOCALIZACAO -->
+  <section class="bloco">
+    <div class="bh">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11z"></path><circle cx="12" cy="10" r="2.5"></circle>
+      </svg>
+      Localização em tempo real
+    </div>
+    <p class="bs">Veja onde <span class="alvo">&nbsp;</span> está agora, e os últimos locais por onde passou.</p>
+
+    <div class="mapa">
+      <div class="vista">
+        <i class="parque"></i><i class="h1_"></i><i class="h2_"></i><i class="v1_"></i><i class="v2_"></i><i class="d1_"></i>
+        <div class="pino"><img id="pFoto2" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"></div>
+      </div>
+      <div class="pe">
+        <b>Localização Atual</b>
+        <span class="alvoArroba">&nbsp;</span>
+        <a href="checkout.html">
+  <button type="button">Ver</button>
+</a>
+      </div>
+    </div>
+
+    <div class="divisor"></div>
+
+    <div class="bh">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle>
+      </svg>
+      Stories e posts ocultos
+    </div>
+    <p class="bs">Veja stories de "Melhores Amigos" e posts que <span class="alvoArroba">&nbsp;</span> ocultou de você.</p>
+
+    <div class="trancados">
+      <div class="tranca">
+        <div class="fundo" style="background:radial-gradient(circle at 34% 40%,#6b4b2e,#241a12 62%,#12100f)"></div>
+        <div class="barra"><span class="av"></span><span class="tx"></span></div>
+        <div class="meio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <rect x="4" y="10" width="16" height="11" rx="2.4"></rect><path d="M8 10V7a4 4 0 1 1 8 0v3"></path>
+          </svg>
+          <span>Conteúdo restrito</span>
+        </div>
+      </div>
+      <div class="tranca">
+        <div class="fundo" style="background:radial-gradient(circle at 60% 55%,#8a8f6a,#2b3126 58%,#14170f)"></div>
+        <div class="barra"><span class="av"></span><span class="tx"></span><span class="pt"></span></div>
+        <div class="meio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <rect x="4" y="10" width="16" height="11" rx="2.4"></rect><path d="M8 10V7a4 4 0 1 1 8 0v3"></path>
+          </svg>
+          <span>Conteúdo restrito</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIRECT -->
+  <section class="bloco">
+    <div class="bh">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M21 11.5A8.4 8.4 0 0 1 12 20a8.9 8.9 0 0 1-3.9-.9L3 20l1.9-4.9A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"></path>
+      </svg>
+      Mensagens do Direct
+    </div>
+    <p class="bs">Veja literalmente todas as mensagens de <span class="alvo">&nbsp;</span>, incluindo mensagens temporárias</p>
+
+    <div class="chat">
+      <div class="cab">
+        <img id="pFoto3" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">
+        <div>
+          <b class="alvo">&nbsp;</b>
+          <span class="on"><i></i> online</span>
+        </div>
+        <div class="ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z"></path>
+          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2"></rect>
+          </svg>
+        </div>
+      </div>
+      <div class="corpo">
+        <div class="balao dele">E aí, bora ver tudo do instagram de <span class="alvo">&nbsp;</span>?</div>
+        <button class="balao meu" type="button" onclick="irPagar()">Boraa, vou comprar meu acesso VIP 🔥</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFERTA -->
+  <section class="oferta">
+    <div class="marca" style="margin-bottom:0">
+      <img src="/images/logo-stalkea.png" alt="Stalkea.ai" width="108" height="68" loading="lazy">
+    </div>
+
+    <p class="chamada">Com o <span>Stalkea.ai</span> você vai ter acesso completo ao instagram de <span class="alvo">&nbsp;</span> por apenas:</p>
+
+    <div class="caixa">
+      <div class="de">De: R$ 199,90</div>
+      <div class="por">R$ 19<small>,90</small></div>
+      <div class="selos">
+        <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>Pagamento único</i>
+        <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>Acesso imediato</i>
+        <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>Pagamento seguro</i>
+        <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>30 dias de garantia</i>
+      </div>
+    </div>
+
+    <div class="itens">
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>Todas as mensagens do direct de <span class="alvo">&nbsp;</span></div>
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>Todas as fotos sem censura (incluindo apagadas)</div>
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>Localização em tempo real e locais que esteve</div>
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>Alerta sempre que <span class="alvo">&nbsp;</span> interagir com alguém</div>
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>2 bônus surpresa avaliados em R$120,00</div>
+    </div>
+
+    <a class="cta" href="checkout.html">
+      <b>Acessar tudo agora mesmo</b>
+      <span>Acesso liberado em até 2 minutos</span>
+    </a>
+  </section>
+
+</div>
+
+<div class="rodape">
+  <div class="txt">
+    <b>Finalize sua compra em <i id="relogio">10:00</i></b>
+    <span>Não saia ou recarregue essa página, a espionagem não pode ser realizada novamente.</span>
+  </div>
+  <a href="checkout.html">Desbloquear Acesso <br> Agora</a>
+</div>
+
+<script>
+/* ---------- destino ---------- */
+/* Leva TODAS as UTMs adiante: as da URL, as que o app guardou
+   (stalkea_utm_params) e o fbclid/ttclid/gclid do clique. Perder isso aqui
+   quebraria a atribuicao da campanha na venda. */
+var CAMPOS_UTM = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','sck','src'];
+var EXTRAS_UTM = ['fbclid','ttclid','gclid'];
+
+function montarUtm(){
+  var q = new URLSearchParams();
+  try{
+    var atual = new URLSearchParams(window.location.search);
+    CAMPOS_UTM.concat(EXTRAS_UTM).forEach(function(k){
+      var v = atual.get(k); if (v) q.set(k, v);
+    });
+  }catch(e){}
+  try{
+    var salvo = JSON.parse(localStorage.getItem('stalkea_utm_params') || '{}');
+    CAMPOS_UTM.forEach(function(k){ if(!q.get(k) && salvo[k]) q.set(k, salvo[k]); });
+  }catch(e){}
+  try{
+    var ex = JSON.parse(localStorage.getItem('extras_click') || '{}');
+    EXTRAS_UTM.forEach(function(k){ if(!q.get(k) && ex[k]) q.set(k, ex[k]); });
+  }catch(e){}
+  return q.toString();
+}
+
+function irPagar(){ window.demoNotice(); }
+
+/* ---------- contador de 10 minutos ---------- */
+(function(){
+  var MIN = 10;
+  var el = document.getElementById('relogio');
+  if (!el) return;
+
+  // guarda o fim na sessao: recarregar a pagina nao devolve tempo novo
+  var fim = Number(sessionStorage.getItem('fim_oferta') || 0);
+  if (!fim || fim < Date.now() - MIN * 60000) {
+    fim = Date.now() + MIN * 60000;
+    sessionStorage.setItem('fim_oferta', String(fim));
+  }
+
+  function tic(){
+    var s = Math.max(0, Math.round((fim - Date.now()) / 1000));
+    var m = Math.floor(s / 60);
+    el.textContent = (m < 10 ? '0' : '') + m + ':' + (s % 60 < 10 ? '0' : '') + (s % 60);
+    if (s > 0) setTimeout(tic, 1000);
+  }
+  tic();
+})();
+
+/* ---------- fundo animado de letras ---------- */
+(function(){
+  var cv = document.getElementById('chuva'), ctx = cv.getContext('2d');
+  var LETRAS = 'STALKEA.I'.split('');
+  var col = [], larg = 0, alt = 0, passo = 22;
+  var lento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function medir(){
+    larg = cv.width = window.innerWidth;
+    alt  = cv.height = window.innerHeight;
+    var n = Math.ceil(larg / passo);
+    col = [];
+    for (var i = 0; i < n; i++){
+      col.push({ y: Math.random() * alt, v: 0.28 + Math.random() * 0.55 });
+    }
+  }
+  medir();
+  var t;
+  window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(medir, 180); });
+
+  function quadro(){
+    ctx.clearRect(0, 0, larg, alt);
+    ctx.font = '600 13px "DM Sans", monospace';
+    ctx.textAlign = 'center';
+    for (var i = 0; i < col.length; i++){
+      var c = col[i], x = i * passo + passo / 2;
+      for (var j = 0; j < 16; j++){
+        var y = c.y - j * 21;
+        if (y < -20 || y > alt + 20) continue;
+        // a letra do topo brilha; as de baixo vao apagando
+        ctx.fillStyle = j === 0 ? 'rgba(190,150,255,.85)'
+                                : 'rgba(124,92,245,' + (0.30 - j * 0.019).toFixed(3) + ')';
+        ctx.fillText(LETRAS[(i + j) % LETRAS.length], x, y);
+      }
+      if (!lento){
+        c.y += c.v;
+        if (c.y - 16 * 21 > alt) c.y = -Math.random() * 120;
+      }
+    }
+    requestAnimationFrame(quadro);
+  }
+  quadro();
+})();
+
+/* ---------- dados do perfil ---------- */
+(function(){
+  /* O @ pode vir de tres lugares, nesta ordem:
+     1) ?profile= na URL
+     2) espionado_username — chave que o app do feed ja usa
+     3) perfil_alvo — o que esta pagina guardou numa visita anterior */
+  function limpar(v){ return String(v || '').replace(/^@/, '').replace(/[^A-Za-z0-9._]/g, ''); }
+  var u = limpar(new URLSearchParams(window.location.search).get('profile'));
+  if (!u) { try { u = limpar(localStorage.getItem('espionado_username')); } catch(e){} }
+  if (!u) { try { u = limpar(localStorage.getItem('perfil_alvo')); } catch(e){} }
+  if (!u) return;
+  try { localStorage.setItem('perfil_alvo', u); } catch(e){}
+
+  function nums(v){
+    v = Number(v) || 0;
+    if (v >= 1e6) return (v / 1e6).toFixed(1).replace('.', ',') + 'M';
+    if (v >= 1e3) return v.toLocaleString('pt-BR');
+    return String(v);
+  }
+  function preencher(sel, txt){
+    document.querySelectorAll(sel).forEach(function(e){ e.textContent = txt; });
+  }
+
+  preencher('.alvo', u);
+  preencher('.alvoArroba', '@' + u);
+  document.getElementById('pArroba').textContent = '@' + u;
+
+  Promise.resolve().then(function(){
+var p={};try{p=JSON.parse(localStorage.getItem('instagram_profile')||'{}');}catch(e){}
+return {success:!!p.username,full_name:p.full_name,biography:p.biography,posts_count:p.media_count,followers:p.follower_count,following:p.following_count,profile_pic:p.profile_pic_url};
+})
+    .then(function(d){
+      if (!d || !d.success) return;
+      var nome = d.full_name || u;
+      document.getElementById('pNome').textContent = nome;
+      preencher('.alvo', nome);
+      document.getElementById('pBio').textContent = d.biography || '';
+      document.getElementById('pPosts').textContent    = nums(d.posts_count);
+      document.getElementById('pSeg').textContent      = nums(d.followers);
+      document.getElementById('pSeguindo').textContent = nums(d.following);
+      if (d.profile_pic){
+        ['pFoto','pFoto2','pFoto3'].forEach(function(id){
+          var img = document.getElementById(id);
+          img.src = d.profile_pic;
+          img.alt = nome;
+        });
+      }
+    })
+    .catch(function(){ /* sem dados: a pagina continua valendo */ });
+})();
+</script>
+</body>
+</html>
+

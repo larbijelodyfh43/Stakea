@@ -1,0 +1,520 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>
+/* Guarda fbclid/ttclid/gclid e repoe na URL: o modulo de UTM do app so carrega
+   os campos utm_* e reconstroi a query do zero, descartando os ids de clique. */
+(function(){try{
+  var EX=["fbclid","ttclid","gclid"];
+  var p=new URLSearchParams(window.location.search), g={};
+  try{g=JSON.parse(localStorage.getItem("extras_click")||"{}");}catch(e){}
+  var novo=false;
+  EX.forEach(function(k){var v=p.get(k); if(v&&g[k]!==v){g[k]=v;novo=true;}});
+  if(novo){try{localStorage.setItem("extras_click",JSON.stringify(g));}catch(e){}}
+  var faltou=false;
+  EX.forEach(function(k){if(!p.get(k)&&g[k]){p.set(k,g[k]);faltou=true;}});
+  if(faltou&&window.history&&history.replaceState){
+    history.replaceState(null,"",window.location.pathname+"?"+p.toString()+window.location.hash);
+  }
+}catch(e){}})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout Seguro - Stalkea.ai</title>
+<!-- Copia local: rastreamento e cobranca real foram desativados. -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08040f;
+  --v1:#8b6ff5;
+  --v2:#b573f0;
+  --v3:#c98cf2;
+  --grad:linear-gradient(90deg,#8b6ff5 0%,#b573f0 55%,#cf8cf0 100%);
+  --card:#130a20;
+  --card-2:#180d28;
+  --line:rgba(168,85,247,.16);
+  --line-2:rgba(168,85,247,.28);
+  --ink:#F4F1FB;
+  --ink-2:#C9BEE3;
+  --ink-3:#9184ad;
+  --ink-4:#6b6088;
+  --ok:#34d399;
+  --red:#f87171;
+  --r:16px;
+}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  font-size:14px;line-height:1.5;
+  position:relative;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(168,85,247,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(168,85,247,.045) 1px,transparent 1px);
+  background-size:46px 46px;
+  mask-image:radial-gradient(120% 90% at 50% 0%,#000 40%,transparent 100%);
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 0%,#000 40%,transparent 100%);
+}
+body::after{
+  content:"";position:fixed;left:50%;top:-160px;transform:translateX(-50%);
+  width:620px;height:520px;z-index:0;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(139,111,245,.22),transparent 70%);
+  filter:blur(10px);
+}
+.wrap{position:relative;z-index:1;max-width:460px;margin:0 auto;padding:44px 20px 60px;display:flex;flex-direction:column;align-items:center}
+
+/* logo */
+.logo{width:96px;height:96px;border-radius:22px;object-fit:cover;
+  box-shadow:0 12px 40px rgba(124,58,237,.35),0 0 0 1px rgba(168,85,247,.22);
+}
+/* badge */
+.badge{margin-top:22px;display:inline-flex;align-items:center;gap:8px;
+  padding:8px 15px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink);
+  background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.28);
+  box-shadow:0 0 22px rgba(52,211,153,.10) inset;
+}
+.badge svg{width:15px;height:15px;color:var(--ok)}
+
+/* heading */
+h1{margin-top:20px;text-align:center;font-size:29px;line-height:1.15;font-weight:700;letter-spacing:-.5px}
+h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin-top:12px;text-align:center;color:var(--ink-3);font-size:14px;max-width:360px}
+
+/* product */
+.prod{margin-top:26px;width:100%;display:flex;align-items:center;gap:13px;
+  padding:14px 15px;border-radius:var(--r);background:var(--card);border:1px solid var(--line)}
+.prod img{width:44px;height:44px;border-radius:11px;object-fit:cover;box-shadow:0 0 0 1px rgba(168,85,247,.2)}
+.prod .pn{font-weight:600;font-size:14px}
+.prod .pd{color:var(--ink-4);font-size:12px;margin-top:2px}
+.prod .pr{margin-left:auto;text-align:right}
+.prod .pr b{font-size:18px;font-weight:700}
+.prod .pr span{display:block;color:var(--ink-4);font-size:11px}
+
+/* form */
+form{margin-top:16px;width:100%;display:flex;flex-direction:column;gap:13px}
+.fg{display:flex;flex-direction:column;gap:7px}
+.fg label{font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.fg input{
+  width:100%;height:50px;padding:0 15px;border-radius:13px;
+  background:var(--card);border:1px solid var(--line-2);color:var(--ink);
+  font-family:inherit;font-size:14.5px;outline:none;transition:border-color .15s,box-shadow .15s;
+}
+.fg input::placeholder{color:var(--ink-4);font-size:13.5px}
+.fg input:focus{border-color:var(--v1);box-shadow:0 0 0 3px rgba(139,111,245,.16)}
+.fg input.err{border-color:var(--red);box-shadow:0 0 0 3px rgba(248,113,113,.14)}
+
+/* button */
+.cta{margin-top:8px;width:100%;height:62px;border:0;border-radius:var(--r);cursor:pointer;
+  background:var(--grad);color:#fff;font-family:inherit;font-weight:700;font-size:15px;letter-spacing:.3px;
+  display:flex;align-items:center;justify-content:center;gap:12px;text-transform:uppercase;
+  box-shadow:0 12px 40px -8px rgba(139,111,245,.6),0 0 0 1px rgba(180,150,255,.35);
+  transition:transform .12s,box-shadow .2s,opacity .2s}
+.cta:hover{transform:translateY(-1px);box-shadow:0 16px 48px -8px rgba(139,111,245,.7),0 0 0 1px rgba(180,150,255,.45)}
+.cta:active{transform:translateY(0)}
+.cta svg{width:19px;height:19px}
+.cta .spin{width:19px;height:19px;border:2.4px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:none}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.terms{margin-top:14px;text-align:center;color:var(--ink-4);font-size:11.5px;line-height:1.6;max-width:330px}
+.terms a{color:var(--ink-3);text-decoration:underline}
+.secure{margin-top:18px;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;
+  font-size:12px;font-weight:600;color:var(--ink-2);background:var(--card);border:1px solid var(--line)}
+.secure svg{width:14px;height:14px;color:var(--v3)}
+.badges{display:grid;grid-template-columns:1fr 1fr;gap:9px;width:100%;max-width:300px;margin:16px auto 0}
+.badges img{width:100%;display:block;border-radius:14px;border:1px solid var(--line);background:var(--card)}
+.reembolso{width:100%;max-width:300px;display:block;border-radius:14px;border:1px solid var(--line);background:var(--card);margin:16px auto 0}
+
+/* CTA no topo do modal do PIX */
+.urg{margin:14px auto 0;padding:12px 14px;border-radius:14px;text-align:center;
+  background:linear-gradient(180deg,rgba(139,92,246,.16),rgba(139,92,246,.05));
+  border:1px solid rgba(139,92,246,.35)}
+.urg-t{font-size:15px;font-weight:800;line-height:1.25;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.urg-s{margin-top:5px;font-size:12px;color:var(--ink-3);font-weight:600}
+
+/* PIX modal */
+.ov{position:fixed;inset:0;z-index:50;background:rgba(4,2,10,.78);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:20px}
+.ov.on{display:flex}
+.modal{width:100%;max-width:390px;background:var(--card-2);border:1px solid var(--line-2);border-radius:20px;
+  padding:24px 22px;box-shadow:0 30px 80px rgba(0,0,0,.6);text-align:center}
+.modal h3{font-size:18px;font-weight:700}
+.modal .mp{color:var(--ink-3);font-size:13px;margin-top:5px}
+.qrbox{margin:18px auto 0;width:196px;height:196px;background:#fff;border-radius:14px;padding:16px;display:flex;align-items:center;justify-content:center}
+.qrbox img,.qrbox canvas{width:100%!important;height:100%!important}
+.pixamt{margin-top:16px;font-size:22px;font-weight:700}
+.pixamt span{display:block;font-size:11px;color:var(--ink-4);font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+.copyrow{margin-top:16px;display:flex;gap:8px}
+.copyrow input{flex:1;height:46px;padding:0 13px;border-radius:11px;background:var(--card);border:1px solid var(--line-2);
+  color:var(--ink-2);font-family:'DM Mono',monospace;font-size:11px;outline:none}
+.copybtn{height:46px;padding:0 16px;border:0;border-radius:11px;background:var(--grad);color:#fff;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap}
+.waitp{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:9px;color:var(--v3);font-size:13px;font-weight:600}
+.waitp .d{width:9px;height:9px;border-radius:50%;background:var(--v3);animation:pl 1s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:.35}50%{opacity:1}}
+.mclose{margin-top:16px;width:100%;height:44px;border:1px solid var(--line-2);background:transparent;color:var(--ink-3);
+  border-radius:12px;font-family:inherit;font-weight:600;font-size:13px;cursor:pointer}
+
+/* estado pago dentro do modal */
+.okico{width:56px;height:56px;margin:4px auto 0;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:30px;font-weight:700;color:#fff;background:var(--grad)}
+.okmsg{margin-top:12px;font-size:14px;line-height:1.55;color:var(--ink-2)}
+.okmsg b{color:var(--ink)}
+.naosai{margin-top:10px;font-size:12px;font-weight:700;color:var(--v3);
+  background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.35);
+  border-radius:10px;padding:8px 10px;line-height:1.45}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);z-index:80;opacity:0;pointer-events:none;
+  background:#1c1030;border:1px solid var(--line-2);color:var(--ink);padding:12px 18px;border-radius:12px;font-size:13px;font-weight:600;
+  box-shadow:0 12px 40px rgba(0,0,0,.5);transition:.25s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:420px){
+  h1{font-size:25px}
+  .cta{font-size:13.5px;height:58px}
+}
+
+/* ===== ORDER BUMP (WhatsApp + Mensagens apagadas) ===== */
+.bump{margin-top:18px;border-radius:14px;padding:2px;
+  background:linear-gradient(135deg,#25D366,#0f9d58);animation:bumpGlow 2.4s ease-in-out infinite}
+@keyframes bumpGlow{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.35)}50%{box-shadow:0 0 0 7px rgba(37,211,102,0)}}
+@media (prefers-reduced-motion:reduce){.bump{animation:none}}
+.bump .in{background:var(--card);border-radius:12px;padding:14px}
+.bump .tp{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;
+  letter-spacing:.06em;color:#25D366;text-transform:uppercase;margin-bottom:9px}
+.bump .tp svg{width:14px;height:14px}
+.bump label{display:flex;align-items:flex-start;gap:11px;cursor:pointer}
+.bump input{appearance:none;flex-shrink:0;width:21px;height:21px;margin-top:1px;border-radius:6px;
+  border:2px solid #25D366;background:transparent;cursor:pointer;position:relative;transition:.15s}
+.bump input:checked{background:#25D366}
+.bump input:checked::after{content:'';position:absolute;left:6px;top:2px;width:5px;height:10px;
+  border:solid #06210f;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.bump .tx{flex:1;min-width:0}
+.bump .tt{font-size:13.5px;font-weight:700;line-height:1.35}
+.bump .ds{font-size:12px;color:var(--ink-3);line-height:1.5;margin-top:3px}
+.bump .pz{display:flex;align-items:baseline;gap:7px;margin-top:7px}
+.bump .pz s{color:var(--ink-4);font-size:12px}
+.bump .pz b{color:#25D366;font-size:15px;font-weight:800}
+/* segundo bump em roxo, pra nao virar bloco verde duplicado */
+.bump.msg{background:linear-gradient(135deg,#8b5cf6,#6d28d9);animation-name:msgGlow}
+@keyframes msgGlow{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,.35)}50%{box-shadow:0 0 0 7px rgba(139,92,246,0)}}
+.bump.msg .tp{color:#8b5cf6}
+.bump.msg input{border-color:#8b5cf6}
+.bump.msg input:checked{background:#8b5cf6}
+.bump.msg input:checked::after{border-color:#160a2b}
+.bump.msg .pz b{color:#8b5cf6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img class="logo" src="checkout-assets/logo.png" fetchpriority="high" decoding="async" alt="Stalkea.ai">
+
+  <div class="badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+    Checkout Seguro
+  </div>
+
+  <h1>Falta pouco pro seu <span class="g">acesso VIP</span></h1>
+  <p class="sub">Preencha seus dados para gerar o PIX e liberar seu acesso completo na hora.</p>
+
+  <div class="prod">
+    <img src="checkout-assets/logo.png" alt="" fetchpriority="high" decoding="async">
+    <div>
+      <div class="pn">STALKEA.AI - Acesso VIP</div>
+      <div class="pd">Pagamento unico - acesso vitalicio</div>
+    </div>
+    <div class="pr"><b>R$ 19,90</b><span>a vista no PIX</span></div>
+  </div>
+
+  <div class="badges">
+    <img src="checkout-assets/badge-nao-notifica.png" alt="A pessoa nao sera notificada" loading="lazy">
+    <img src="checkout-assets/badge-15mil.png" alt="Mais de 15 mil clientes" loading="lazy">
+    <img src="checkout-assets/badge-seguro.png" alt="100% seguro" loading="lazy">
+    <img src="checkout-assets/badge-extra.png" alt="Voce recebe o app na hora" loading="lazy">
+  </div>
+
+  <div class="bump">
+    <div class="in">
+      <div class="tp">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.7 15l-1.2 4.4 4.5-1.2A10 10 0 1 0 12 2Zm5.5 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2 .2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.1.1.3 0 .5l-.3.4-.4.4c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.3.1.4.1.6-.1l.8-.9c.2-.2.4-.2.6-.1l1.8.8c.2.1.4.2.4.3.1.1.1.5 0 1.1Z"/></svg>
+        Oferta exclusiva desta pagina
+      </div>
+      <label for="bump">
+        <input type="checkbox" id="bump" onchange="atualizarTotal()">
+        <span class="tx">
+          <span class="tt">Adicionar tambem o <b>ZapClone</b> &mdash; clone do WhatsApp</span>
+          <span class="ds">Espelhe as conversas de qualquer numero: mensagens, audios,
+            midias e ligacoes &mdash; inclusive o que foi apagado.</span>
+          <span class="pz"><s>R$ 97,00</s><b>+ R$ 18,90</b></span>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <div class="bump msg">
+    <div class="in">
+      <div class="tp">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+        Mais pedido
+      </div>
+      <label for="bump3">
+        <input type="checkbox" id="bump3" onchange="atualizarTotal()">
+        <span class="tx">
+          <span class="tt">Ler <b>mensagens apagadas</b></span>
+          <span class="ds">Recupere e leia as mensagens que a pessoa apagou da conversa - inclusive as que ela deletou pra voce nao ver.</span>
+          <span class="pz"><s>R$ 87,00</s><b>+ R$ 13,90</b></span>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <form onsubmit="doSubmit();return false" autocomplete="on">
+    <div class="fg">
+      <label for="nome">Nome completo</label>
+      <input id="nome" type="text" name="name" placeholder="Seu nome completo" autocomplete="name">
+    </div>
+    <div class="fg">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" name="email" placeholder="seuemail@exemplo.com" autocomplete="email" inputmode="email">
+    </div>
+    <div class="fg">
+      <label for="phone">Telefone</label>
+      <input id="phone" type="text" name="phone" placeholder="(00) 00000-0000" maxlength="15" inputmode="numeric" autocomplete="tel" oninput="fmtTel(this)">
+    </div>
+    <div class="fg">
+      <label for="document">CPF</label>
+      <input id="document" type="text" name="document" placeholder="000.000.000-00" maxlength="14" inputmode="numeric" autocomplete="off" oninput="fmtCpf(this)">
+    </div>
+    <button class="cta" id="cta" type="submit">
+      <span class="spin" id="ctaSpin"></span>
+      <span id="ctaTxt">Quero prosseguir e receber meu acesso</span>
+      <svg id="ctaIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </form>
+
+  <p class="terms">Ao continuar, voce concorda com a Politica de Privacidade e os Termos de Uso do aplicativo.</p>
+
+  <img class="reembolso" src="checkout-assets/reembolso.png" alt="Reembolso garantido em ate 5 minutos" loading="lazy">
+</div>
+
+<!-- PIX MODAL -->
+<div class="ov" id="pixOverlay">
+  <div class="modal">
+    <h3>Pague com PIX para liberar</h3>
+    <p class="mp">Escaneie o QR Code ou copie o codigo abaixo</p>
+    <div class="urg">
+      <div class="urg-t">Descubra o outro lado da moeda</div>
+      <div class="urg-s">Confirmacao automatica em segundos apos o pagamento</div>
+    </div>
+    <div class="qrbox" id="modalQrBox"></div>
+    <div class="pixamt">R$ 19,90<span>Valor do PIX</span></div>
+    <div class="copyrow">
+      <input id="modalPixVal" readonly value="" placeholder="Aguardando codigo...">
+      <button class="copybtn" onclick="copyPix()">Copiar</button>
+    </div>
+    <div class="waitp"><span class="d"></span> Aguardando pagamento...</div>
+    <div class="naosai">Nao feche nem saia desta pagina. Assim que o PIX cair voce e redirecionado automaticamente.</div>
+    <button class="mclose" onclick="closePixModal()">Fechar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="toastMsg"></span></div>
+
+<script src="checkout-assets/qrcode.min.js"></script>
+<script>
+/* ===== BACK REDIRECT + PRECO PROMOCIONAL ===== */
+var _qs = new URLSearchParams(window.location.search);
+var PROMO = _qs.get('promo') === '990';
+var PRICE = PROMO ? 9.90 : 19.90;
+var PRICE_TXT = PROMO ? 'R$ 9,90' : 'R$ 19,90';
+
+/* ===== ORDER BUMP =====
+   O valor cobrado passa a ser PRICE + bumps marcados. Tudo que envia dinheiro
+   usa valorTotal(), nunca PRICE direto - senao o cliente marca e nao paga. */
+var BUMPS = [
+  { id:'bump',  valor: 18.90, nome:'ZapClone - Clone de WhatsApp', curto:'ZapClone' },
+  { id:'bump3', valor: 13.90, nome:'Ler Mensagens Apagadas',       curto:'Mensagens Apagadas' }
+];
+function bumpsAtivos(){
+  return BUMPS.filter(function(b){ var el = document.getElementById(b.id); return !!(el && el.checked); });
+}
+function bumpAtivo(){ return bumpsAtivos().length > 0; }
+function valorBumps(){ return bumpsAtivos().reduce(function(s,b){ return s + b.valor; }, 0); }
+function nomeBumps(){ return bumpsAtivos().map(function(b){ return b.nome; }).join(' + '); }
+function valorTotal(){ return Math.round((PRICE + valorBumps()) * 100) / 100; }
+function fmtBR(v){ return 'R$ ' + v.toFixed(2).replace('.', ','); }
+
+/* Depois que o PIX e gerado, o valor esta fechado no gateway: travar os bumps
+   pra tela nunca mostrar um total diferente do que o cliente vai pagar. */
+function travarBumps(){
+  BUMPS.forEach(function(b){
+    var el = document.getElementById(b.id);
+    if (el) { el.disabled = true; }
+    var box = el && el.closest ? el.closest('.bump') : null;
+    if (box) { box.style.opacity = '.55'; box.style.animation = 'none'; box.style.pointerEvents = 'none'; }
+  });
+}
+
+/* Atualiza preco na vitrine, no modal do PIX e o nome do produto. */
+function atualizarTotal(){
+  var t = valorTotal();
+  var b = document.querySelector('.prod .pr b');
+  if (b) b.textContent = fmtBR(t);
+  var pa = document.querySelector('.pixamt');
+  if (pa && pa.firstChild && pa.firstChild.nodeType === 3) pa.firstChild.nodeValue = fmtBR(t);
+  var nome = document.querySelector('.prod .pn');
+  if (nome) nome.textContent = 'STALKEA.AI - Acesso VIP' +
+    bumpsAtivos().map(function(b){ return ' + ' + b.curto; }).join('');
+}
+(function(){
+  if (PROMO) {
+    var b = document.querySelector('.prod .pr b');
+    if (b) b.textContent = PRICE_TXT;
+    var pa = document.querySelector('.pixamt');
+    if (pa && pa.firstChild && pa.firstChild.nodeType === 3) pa.firstChild.nodeValue = PRICE_TXT;
+  }
+  // Copia local: sem redirecionamento de saida.
+})();
+
+function fmtTel(el){
+  let v=el.value.replace(/\D/g,'').substring(0,11);
+  if(v.length>6)v=v.replace(/(\d{2})(\d{5})(\d{0,4})/,'($1) $2-$3');
+  else if(v.length>2)v=v.replace(/(\d{2})(\d{0,5})/,'($1) $2');
+  el.value=v;
+}
+function fmtCpf(el){
+  var v=el.value.replace(/\D/g,'').substring(0,11);
+  v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+  el.value=v;
+}
+function toast(msg){
+  document.getElementById('toastMsg').textContent=msg;
+  var t=document.getElementById('toast');t.classList.add('on');
+  setTimeout(function(){t.classList.remove('on')},3200);
+}
+function openPixModal(){document.getElementById('pixOverlay').classList.add('on')}
+function closePixModal(){document.getElementById('pixOverlay').classList.remove('on')}
+function copyPix(){
+  var v=document.getElementById('modalPixVal').value;
+  if(!v){toast('Codigo ainda nao gerado');return}
+  navigator.clipboard.writeText(v).then(function(){toast('Codigo PIX copiado!')})
+    .catch(function(){var i=document.getElementById('modalPixVal');i.select();document.execCommand('copy');toast('Codigo PIX copiado!')});
+}
+
+function renderPixQr(qrBox,data){
+  qrBox.innerHTML='';
+  if(data.qr_code_base64){
+    var img=document.createElement('img');
+    img.src=data.qr_code_base64.indexOf('data:')===0 ? data.qr_code_base64 : 'data:image/png;base64,'+data.qr_code_base64;
+    img.alt='QR Code PIX';
+    qrBox.appendChild(img);
+    return;
+  }
+  if(data.qr_code&&typeof QRCode!=='undefined'){
+    try{
+      new QRCode(qrBox,{text:data.qr_code,width:164,height:164,colorDark:'#0D1117',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.M});
+      return;
+    }catch(e){}
+  }
+  qrBox.innerHTML='<div style="color:#111;font-size:11px;padding:16px;text-align:center">Use o codigo PIX copia e cola.</div>';
+}
+
+function collectUtm(){
+  var KEYS=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','ttclid','gclid','sck','src','rec'];
+  var p=new URLSearchParams(window.location.search);
+  var stored={};
+  try{stored=JSON.parse(localStorage.getItem('utm_checkout')||'{}')}catch(e){}
+  var utm=Object.assign({},stored);
+  // 1) da URL (fonte principal)
+  KEYS.forEach(function(k){var v=p.get(k);if(v)utm[k.replace('utm_','')]=v});
+  // 2) fallback: recupera do storage do Best Tracker se algo faltar
+  KEYS.forEach(function(k){
+    var curto=k.replace('utm_','');
+    if(utm[curto])return;
+    var v=null;
+    try{v=localStorage.getItem(k)}catch(e){}
+    if(!v){try{var bt=JSON.parse(localStorage.getItem('_bt_last')||'{}');v=bt[k]||null}catch(e){}}
+    if(!v){try{var bf=JSON.parse(localStorage.getItem('_bt_first')||'{}');v=bf[k]||null}catch(e){}}
+    if(v)utm[curto]=v;
+  });
+  try{if(Object.keys(utm).length)localStorage.setItem('utm_checkout',JSON.stringify(utm))}catch(e){}
+  return utm;
+}
+
+function doSubmit(){
+  var name=document.getElementById('nome').value.trim();
+  var email=document.getElementById('email').value.trim();
+  var phone=document.getElementById('phone').value.trim();
+  var documentValue=document.getElementById('document').value.trim();
+
+  document.getElementById('nome').classList.remove('err');
+  document.getElementById('email').classList.remove('err');
+  document.getElementById('phone').classList.remove('err');
+  document.getElementById('document').classList.remove('err');
+
+  if(!name){document.getElementById('nome').classList.add('err');toast('Informe seu nome completo');return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){document.getElementById('email').classList.add('err');toast('E-mail invalido');return}
+  if(phone.replace(/\D/g,'').length<10){document.getElementById('phone').classList.add('err');toast('Telefone invalido');return}
+  if(documentValue.replace(/\D/g,'').length!==11){document.getElementById('document').classList.add('err');toast('CPF invalido');return}
+
+  var btn=document.getElementById('cta');
+  var ic=document.getElementById('ctaIcon');
+  var tx=document.getElementById('ctaTxt');
+  var sp=document.getElementById('ctaSpin');
+  btn.disabled=true;btn.style.opacity='.8';
+  ic.style.display='none';sp.style.display='block';
+  tx.textContent='Gerando PIX...';
+
+  fetch('/api/payment/create',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      name:name,email:email,phone:phone,document:documentValue,
+      promo:PROMO,bumps:bumpsAtivos().map(function(b){return b.id}),tracking:collectUtm()
+    })
+  })
+  .then(function(res){return res.json().then(function(data){if(!res.ok)throw new Error(data.error||'Erro ao gerar pagamento');return data})})
+  .then(function(data){
+    btn.disabled=false;btn.style.opacity='1';
+    ic.style.display='';sp.style.display='none';
+    tx.textContent='Quero prosseguir e receber meu acesso';
+    travarBumps();
+    document.getElementById('modalPixVal').value=data.copia_cola||data.qr_code||'';
+    var qrBox=document.getElementById('modalQrBox');
+    renderPixQr(qrBox,data);
+    openPixModal();
+    toast(data.mock?'PIX de demonstracao gerado.':'PIX gerado com sucesso!');
+    if(!data.mock&&data.transaction_id)checkPaymentStatus(data.transaction_id);
+  })
+  .catch(function(err){
+    btn.disabled=false;btn.style.opacity='1';
+    ic.style.display='';sp.style.display='none';
+    tx.textContent='Quero prosseguir e receber meu acesso';
+    toast('Erro: '+err.message);
+  });
+}
+
+function checkPaymentStatus(transactionId){
+  var interval=setInterval(function(){
+    fetch('/api/payment/status?transaction_id='+encodeURIComponent(transactionId))
+      .then(function(res){return res.json()})
+      .then(function(data){
+        if(data.status==='paid'){
+          clearInterval(interval);
+          var modal=document.querySelector('#pixOverlay .modal');
+          if(modal){modal.innerHTML='<div class="okico">&#10003;</div><h3 style="margin-top:12px">Pagamento confirmado!</h3><p class="okmsg">Seu pagamento foi aprovado.</p>';}
+          toast('Pagamento confirmado!');
+        }
+      }).catch(function(){});
+  },5000);
+}
+</script>
+</body>
+</html>
+

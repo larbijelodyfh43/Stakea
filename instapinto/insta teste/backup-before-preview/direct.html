@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <link rel="stylesheet" href="css/demo.css">
+    <script src="js/demo.js"></script>
+    <meta charset="utf-8">
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1826765388014679');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1826765388014679&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    <title>Direct - Instagram DM</title>
+    <meta name="description" content="Direct Messages">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* ============================================ */
+        /* RESET & BASE STYLES                          */
+        /* ============================================ */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0B1014;
+            color: #F9F9F9;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            max-width: 100vw;
+            width: 100%;
+        }
+
+        /* Scrollbar hide utility */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* ============================================ */
+        /* HEADER                                       */
+        /* ============================================ */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid #1f2937;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #0B1014;
+            z-index: 50;
+            max-width: 100vw;
+            box-sizing: border-box;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .header-left span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-logo {
+            max-height: 29px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* ============================================ */
+        /* SEARCH BAR                                   */
+        /* ============================================ */
+        .search-wrapper {
+            padding: 0 16px;
+            padding-top: 68px;
+            margin-bottom: 25px;
+            max-width: 100vw;
+            box-sizing: border-box;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-icon-wrapper {
+            position: absolute;
+            left: 12px;
+            top: 11px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 11px 12px 11px 40px;
+            border-radius: 9999px;
+            border: none;
+            outline: none;
+            background-color: rgb(37, 40, 45);
+            color: rgb(142, 147, 153);
+            font-size: 16.5px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .search-input::placeholder {
+            color: rgb(142, 147, 153);
+        }
+
+        /* ============================================ */
+        /* STORIES SECTION                              */
+        /* ============================================ */
+        .stories-section {
+            position: relative;
+            max-width: 100vw;
+            overflow: hidden;
+        }
+
+        .stories-container {
+            display: flex;
+            gap: 16px;
+            padding: 0 16px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        .stories-fade {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 32px;
+            background: linear-gradient(to left, #0B1014, transparent);
+            pointer-events: none;
+        }
+
+        .story-item {
+            flex-shrink: 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .story-button {
+            position: relative;
+            width: fit-content;
+            margin: 0 auto;
+            padding-top: 40px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            overflow: visible !important;
+        }
+
+        .story-bubble {
+            position: absolute;
+            z-index: 30;
+            top: -20%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            overflow: visible !important;
+        }
+
+        .speech-bubble {
+            position: relative;
+            text-align: center;
+            padding: 6px 10px;
+            overflow: visible;
+            background: rgba(38, 38, 38, 0.95);
+            border-radius: 12px;
+            border: 0.5px solid rgba(255, 255, 255, 0.2);
+            max-width: 90px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid rgba(38, 38, 38, 0.85);
+        }
+
+        .speech-bubble-text {
+            position: relative;
+            z-index: 1;
+            font-size: 11px;
+            color: #F9F9F9;
+            line-height: 1.2;
+            display: block;
+            max-width: 70px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .story-avatar {
+            margin: 0 auto;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            width: 69px;
+            height: 69px;
+            z-index: 1;
+            background-color: rgb(31, 41, 55);
+            display: block;
+        }
+
+        .story-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            background-color: transparent;
+            opacity: 0.8;
+        }
+
+        .story-name {
+            text-align: center;
+            font-size: 12.18px;
+            color: rgb(209, 213, 219);
+            margin-top: 4px;
+            width: 64px;
+            margin-left: auto;
+            margin-right: auto;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        /* ============================================ */
+        /* MESSAGES HEADER                              */
+        /* ============================================ */
+        .messages-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            margin-top: 8px;
+        }
+
+        .messages-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #F9F9F9;
+        }
+
+        .messages-requests {
+            font-size: 14px;
+            color: rgb(81, 122, 255);
+            font-weight: 400;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* ============================================ */
+        /* CHAT LIST                                    */
+        /* ============================================ */
+        .messages-list {
+            padding: 0 16px 160px;
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
+        .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            gap: 12px;
+            cursor: pointer;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        /* Avatar Container */
+        .chat-avatar-container {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .chat-avatar-wrapper {
+            position: relative;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            overflow: hidden;
+            transform: translateZ(0);
+            -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+            mask-image: radial-gradient(circle, white 100%, black 100%);
+        }
+
+        .chat-avatar-wrapper:not(.locked-avatar) .chat-photo {
+            filter: blur(7px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: scale(1.1);
+            z-index: 1;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0.85;
+        }
+
+        .chat-avatar-wrapper:not(.locked-avatar)>svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .chat-avatar-wrapper.locked-avatar {
+            overflow: visible;
+            filter: blur(5px);
+        }
+
+        .chat-lock-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        .chat-lock-icon svg,
+        .chat-avatar-wrapper svg {
+            stroke: #F9F9F9;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 6px rgba(0, 0, 0, 1));
+        }
+
+        /* Chat Content */
+        .chat-content {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .chat-name {
+            font-size: 14px;
+            font-weight: 400;
+            color: #F9F9F9;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-message-row {
+            display: flex;
+            align-items: center;
+            margin-top: 3px;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .chat-message-text {
+            font-size: 13px;
+            color: #A8A8A8;
+            font-weight: 400;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-time {
+            font-size: 13px;
+            color: #A8A8A8;
+            font-weight: 400;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* Chat Actions */
+        .chat-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .chat-unread-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #0095F6;
+        }
+
+        .chat-camera-icon {
+            opacity: 0.4;
+            fill: #F9F9F9;
+        }
+
+        /* Unread Chat Styles */
+        .chat-item.chat-unread .chat-camera-icon {
+            opacity: 1 !important;
+        }
+
+        .chat-item.chat-unread .chat-name {
+            font-weight: bold !important;
+        }
+
+        .chat-item.chat-unread .chat-message-text {
+            color: #F9F9F9 !important;
+            font-weight: bold !important;
+        }
+
+        /* Fake chat blur (enchacao de linguica) */
+        .enchacao-de-linguica {
+            filter: blur(7px);
+            opacity: 0.7;
+            pointer-events: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .enchacao-de-linguica .chat-message-text {
+            filter: blur(3px);
+        }
+
+        .enchacao-de-linguica .chat-name {
+            filter: blur(3px);
+        }
+
+        /* ============================================ */
+        /* LOADING INDICATOR                            */
+        /* ============================================ */
+        .loading-indicator {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* ============================================ */
+        /* PREVIEW BANNER                               */
+        /* ============================================ */
+        /* ============================================ */
+        /* PREVIEW BANNER                               */
+        /* ============================================ */
+        #preview-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, rgba(105, 85, 210, 0.98) 0%, rgba(122, 83, 217, 0.98) 100%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            backdrop-filter: blur(24px) saturate(180%);
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            z-index: 999;
+            padding: 12px 16px 20px;
+            display: flex;
+            align-items: flex-start;
+            animation: slideUpBanner 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 16px 16px 0 0;
+            max-width: 100vw;
+            box-sizing: border-box;
+        }
+
+        @keyframes slideUpBanner {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #preview-banner.hidden {
+            animation: slideDownBanner 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideDownBanner {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+        }
+
+        .preview-banner-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .preview-banner-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            padding-top: 6px;
+            padding-right: 100px;
+            line-height: 1.3;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 3px;
+        }
+
+        @media (max-width: 380px) {
+            .preview-banner-title {
+                font-size: 12px;
+                padding-right: 90px;
+            }
+            .preview-banner-description {
+                font-size: 10px;
+            }
+            .preview-banner-button {
+                font-size: 11px;
+                padding: 4px 8px;
+            }
+        }
+
+        .preview-banner-description {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+            padding-top: 4px;
+            line-height: 1.4;
+        }
+
+        .preview-timer-inline {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .preview-timer-icon {
+            width: 12px;
+            height: 12px;
+            animation: pulseTimer 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes pulseTimer {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .preview-banner-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: white;
+            color: #6955d2;
+            border: none;
+            padding: 5px 11px;
+            border-radius: 0 16px 0 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            animation: buttonPulse 2s ease-in-out infinite;
+            line-height: 1.2;
+            width: auto;
+        }
+
+        @keyframes buttonPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.9;
+                transform: scale(1.02);
+            }
+        }
+
+        /* ============================================ */
+        /* BLOCKED POPUP                                */
+        /* ============================================ */
+        #blocked-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: none;
+        }
+
+        #blocked-popup-overlay.show {
+            display: block;
+        }
+
+        #blocked-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(220, 38, 38, 0.15);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(20px) saturate(180%);
+            color: #F9F9F9;
+            padding: 24px 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(249, 249, 249, 0.18);
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 300px;
+            width: calc(100% - 40px);
+            text-align: center;
+        }
+
+        #blocked-popup.show {
+            display: flex;
+            animation: popupFadeIn 0.3s ease-out, subtlePulse 3s ease-in-out infinite 0.5s;
+        }
+
+        /* ============================================ */
+        /* ANIMATIONS                                   */
+        /* ============================================ */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes popupFadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes subtlePulse {
+
+            0%,
+            100% {
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            }
+
+            50% {
+                box-shadow: 0 8px 32px rgba(220, 38, 38, 0.25);
+            }
+        }
+
+        /* ============================================ */
+        /* MUSIC NOTE STYLES                            */
+        /* ============================================ */
+        .speech-bubble-music {
+            text-align: left;
+        }
+
+        .music-title-scroll {
+            display: inline-block;
+            white-space: nowrap;
+            font-size: 10px;
+            color: #F9F9F9;
+            line-height: 1.2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SVG Symbols -->
+    <svg style="display: none;">
+        <symbol id="camera-icon" viewBox="0 0 66 64" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M24.743 0.806959C22.974 1.01696 20.854 2.54296 18.826 5.06696C16.383 8.10696 14.966 9.00096 12.583 9.00396C10.887 9.00596 8.01 9.91596 6.19 11.026C0.838 14.289 0 17.748 0 36.582C0 51.783 0.187 53.561 2.159 57.069C5.68 63.333 8.651 64 33.052 64C55.815 64 58.402 63.529 63 58.551C65.45 55.898 65.506 55.477 65.811 37.491C66.071 22.148 65.858 18.626 64.513 16.024C62.544 12.217 57.524 9.00896 53.527 9.00396C51.336 9.00096 49.627 7.96696 47.027 5.07196C43.551 1.19996 43.384 1.13796 35.5 0.811961C31.1 0.629961 26.259 0.627959 24.743 0.806959ZM43.216 9.57496C44.622 12.66 48.789 15 52.878 15C54.903 15 56.518 15.843 57.927 17.635C59.831 20.055 60 21.594 60 36.524C60 59.297 62.313 57.5 33.052 57.5C3.655 57.5 6 59.35 6 36.204C6 20.562 6.122 19.499 8.174 17.314C9.469 15.936 11.511 15 13.224 15C17.15 15 21.289 12.696 22.954 9.58496C24.282 7.10396 24.693 6.99996 33.19 6.99996C41.731 6.99996 42.084 7.09096 43.216 9.57496ZM27 19.722C15.76 23.945 13.183 40.493 22.611 47.908C30.698 54.27 42.974 51.753 47.612 42.783C51.201 35.844 48.564 25.701 42.015 21.25C38.771 19.046 30.925 18.247 27 19.722ZM40.077 27.923C46.612 34.459 42.201 45.273 33 45.273C23.799 45.273 19.388 34.459 25.923 27.923C30.039 23.807 35.961 23.807 40.077 27.923Z"
+                fill="#F9F9F9"></path>
+        </symbol>
+    </svg>
+
+    <!-- ============================================ -->
+    <!-- HEADER                                       -->
+    <!-- ============================================ -->
+    <div class="header">
+        <div class="header-left">
+            <button type="button" class="btn-icon" aria-label="Voltar" id="backButton">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F9F9F9" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 18l-6-6 6-6"></path>
+                </svg>
+            </button>
+            <span style="font-size: 20px; font-weight: 700; color: #F9F9F9;" id="header-username">username</span>
+        </div>
+        <div class="header-right">
+            <button type="button" class="btn-icon" id="camera-icon-header" aria-label="Camera">
+                <svg width="24" height="24" viewBox="0 0 69 69" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M30.8471 0.558896C27.5641 1.4949 25.7521 3.6039 19.6111 13.6319C17.4081 17.2299 15.3201 19.0549 10.7811 21.3459C7.51206 22.9959 3.92306 25.5089 2.80506 26.9299C-2.18494 33.2729 -0.395945 40.6819 7.20506 45.1619C16.6311 50.7169 18.1311 52.0689 21.3811 57.9379C25.9281 66.1469 28.6881 68.4199 34.1131 68.4199C39.7151 68.4199 43.4841 65.3589 47.7611 57.3319C50.5401 52.1179 51.8141 50.8849 58.1341 47.2889C65.8431 42.9029 68.6341 39.4949 68.6341 34.4659C68.6341 29.1849 66.2281 26.1259 58.4791 21.5519C51.9381 17.6909 50.6991 16.4519 47.1581 10.2269C42.1781 1.4739 37.4551 -1.3261 30.8471 0.558896Z"
+                        fill="#F9F9F9"></path>
+                </svg>
+            </button>
+            <button type="button" class="btn-icon" id="new-message-icon" aria-label="Nova mensagem">
+                <svg fill="#F9F9F9" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M12.202 3.203H5.25a3 3 0 0 0-3 3V18.75a3 3 0 0 0 3 3h12.547a3 3 0 0 0 3-3v-6.952"
+                        fill="none" stroke="#F9F9F9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    </path>
+                    <path
+                        d="M10.002 17.226H6.774v-3.228L18.607 2.165a1.417 1.417 0 0 1 2.004 0l1.224 1.225a1.417 1.417 0 0 1 0 2.004Z"
+                        fill="none" stroke="#F9F9F9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    </path>
+                    <line fill="none" stroke="#F9F9F9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        x1="16.848" x2="20.076" y1="3.924" y2="7.153"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SEARCH BAR                                   -->
+    <!-- ============================================ -->
+    <div class="search-wrapper">
+        <div class="search-container">
+            <div class="search-icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="rgb(101,101,101)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </div>
+            <input placeholder="Interaja com a Meta AI ou pesquise" class="search-input" type="text">
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- STORIES SECTION                              -->
+    <!-- ============================================ -->
+    <div class="stories-section">
+        <div class="stories-container scrollbar-hide" id="storiesContainer">
+            <!-- Stories inserted via JavaScript -->
+        </div>
+        <div class="stories-fade"></div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MESSAGES HEADER                              -->
+    <!-- ============================================ -->
+    <div class="messages-header">
+        <h2 class="messages-title">Mensagens fictícias</h2>
+        <button type="button" class="messages-requests" id="pedidos-link">Pedidos (4)</button>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MESSAGES LIST                                -->
+    <!-- ============================================ -->
+    <div class="messages-list" id="messagesList">
+
+        <!-- Chat Clicavel 1 - Jo -->
+        <div class="chat-item chat-clickable chat-unread" data-chat-index="15">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">Jo*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text" id="chat1MessageText">adivinha o que voce esqueceu aqui?
+                        kkkkk</span>
+                    <span class="chat-time" id="chatClickable1Time"> &bull; Agora</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <div class="chat-unread-dot"></div>
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat Clicavel 2 -->
+        <div class="chat-item chat-clickable chat-unread" data-chat-index="17">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">Encaminhou um reel de jonas.milgrau</span>
+                    <span class="chat-time" id="chatClickable2Time"> &bull; 33 min</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <div class="chat-unread-dot"></div>
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat Clicavel 3 -->
+        <div class="chat-item chat-clickable" data-chat-index="18">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">Blz depois a gente se fala</span>
+                    <span class="chat-time" id="chatClickable3Time"> &bull; 2 h</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat Clicavel 4 - And -->
+        <div class="chat-item chat-clickable" data-chat-index="16">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">And*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">Reagiu com &#128077; a sua mensagem</span>
+                    <span class="chat-time" id="chatClickable4Time"> &bull; 6 h</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat Clicavel 5 - Bru -->
+        <div class="chat-item chat-clickable chat-unread" data-chat-index="19">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">Bru****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">4 novas mensagens</span>
+                    <span class="chat-time" id="chatClickable5Time"> &bull; 22 h</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <div class="chat-unread-dot"></div>
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 3 - Locked with icon -->
+        <div class="chat-item" data-chat-index="2">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">Enviou um reel de dr.diegooficial</span>
+                    <span class="chat-time"> &bull; 2 d</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 4 -->
+        <div class="chat-item" data-chat-index="3">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text" id="dynamic-day-message">Enviado sexta-feira</span>
+                    <span class="chat-time"> &bull; 2 d</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 5 -->
+        <div class="chat-item" data-chat-index="4">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">Enviou uma mensagem de voz</span>
+                    <span class="chat-time"> &bull; 2 d</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 6 -->
+        <div class="chat-item" data-chat-index="5">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">kkkkkkkkkk</span>
+                    <span class="chat-time"> &bull; 2 d</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 7 -->
+        <div class="chat-item" data-chat-index="6">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">Curtiu sua mensagem</span>
+                    <span class="chat-time"> &bull; 2 d</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 8 -->
+        <div class="chat-item" data-chat-index="7">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">&#128293;&#128293;</span>
+                    <span class="chat-time"> &bull; 3 d</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 9 -->
+        <div class="chat-item" data-chat-index="8">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                    <img class="chat-photo"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect fill='%231f2937' width='56' height='56'/%3E%3C/svg%3E"
+                        alt="">
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text" id="dynamic-day-message-3days">Enviado</span>
+                    <span class="chat-time"> &bull; 3 d</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 10 - Locked -->
+        <div class="chat-item locked" data-chat-index="9">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper locked-avatar"></div>
+                <div class="chat-lock-icon">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">Enviado segunda-feira</span>
+                    <span class="chat-time"> &bull; 3 d</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 11 - Locked -->
+        <div class="chat-item locked" data-chat-index="10">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper locked-avatar"></div>
+                <div class="chat-lock-icon">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">Delicia voce &#128520; &#128520;</span>
+                    <span class="chat-time"> &bull; 4 d</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 12 - Locked -->
+        <div class="chat-item locked" data-chat-index="11">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper locked-avatar"></div>
+                <div class="chat-lock-icon">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">Curtiu sua mensagem</span>
+                    <span class="chat-time"> &bull; 4 d</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 13 - Locked -->
+        <div class="chat-item locked" data-chat-index="12">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper locked-avatar"></div>
+                <div class="chat-lock-icon">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">Enviado quinta-feira</span>
+                    <span class="chat-time"> &bull; 6 d</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 14 - Locked -->
+        <div class="chat-item locked" data-chat-index="13">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper locked-avatar"></div>
+                <div class="chat-lock-icon">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">Ah sim entendi</span>
+                    <span class="chat-time"> &bull; 1 sem</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat 15 - Locked -->
+        <div class="chat-item locked" data-chat-index="14">
+            <div class="chat-avatar-container">
+                <div class="chat-avatar-wrapper locked-avatar"></div>
+                <div class="chat-lock-icon">
+                    <svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 class="chat-name">*****</h3>
+                </div>
+                <div class="chat-message-row">
+                    <span class="chat-message-text">&#128520;&#128520;</span>
+                    <span class="chat-time"> &bull; 2 sem</span>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <svg class="chat-camera-icon" width="19.2" height="19.2">
+                    <use href="#camera-icon"></use>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading-indicator" class="loading-indicator">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                style="animation: spin 1s linear infinite;">
+                <circle cx="12" cy="12" r="10" stroke="#F9F9F9" stroke-width="2" stroke-opacity="0.3" fill="none" />
+                <path
+                    d="M12 2C13.3132 2 14.6136 2.25866 15.8268 2.7612C17.0401 3.26375 18.1425 4.00035 19.0711 4.92893C19.9997 5.85752 20.7362 6.95991 21.2388 8.17317C21.7413 9.38642 22 10.6868 22 12"
+                    stroke="#F9F9F9" stroke-width="2" stroke-linecap="round" fill="none" stroke-dasharray="31.416"
+                    stroke-dashoffset="15.708" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PREVIEW BANNER                               -->
+    <!-- ============================================ -->
+    <div id="preview-banner">
+        <div class="preview-banner-content">
+            <div class="preview-banner-text">
+                <p class="preview-banner-title">
+                    ⚡ Prévia disponível por
+                    <span class="preview-timer-inline" id="preview-timer">
+                        <span id="timer-text">10:00</span>
+                        <svg class="preview-timer-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </span>
+                </p>
+                <p class="preview-banner-description">Recebeste 10 minutos para testar gratuitamente a nossa ferramenta,
+                    mas para desbloquear todas as funcionalidades e ter acesso permanente é necessário ser membro VIP.
+                </p>
+            </div>
+        </div>
+        <button type="button" class="preview-banner-button" id="vipButton">Tornar-se VIP</button>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- BLOCKED POPUP                                -->
+    <!-- ============================================ -->
+    <div id="blocked-popup-overlay"></div>
+    <div id="blocked-popup"></div>
+
+    <!-- ============================================ -->
+    <!-- JAVASCRIPT                                   -->
+    <!-- ============================================ -->
+    <script>
+        (function () {
+            'use strict';
+
+            // ============================================
+            // PREVIEW BANNER TIMER (10 min)
+            // ============================================
+            var PREVIEW_DURATION = 10 * 60 * 1000;
+            var STORAGE_KEY = 'previewStartTime';
+
+            function formatTime(ms) {
+                var totalSeconds = Math.floor(ms / 1000);
+                var minutes = Math.floor(totalSeconds / 60);
+                var seconds = totalSeconds % 60;
+                return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+            }
+
+            function initPreviewBanner() {
+                var startTime = localStorage.getItem(STORAGE_KEY);
+                if (!startTime) {
+                    startTime = Date.now();
+                    localStorage.setItem(STORAGE_KEY, startTime.toString());
+                } else {
+                    startTime = parseInt(startTime);
+                }
+
+                var elapsed = Date.now() - startTime;
+                var remaining = PREVIEW_DURATION - elapsed;
+
+                if (remaining <= 0) {
+                    var banner = document.getElementById('preview-banner');
+                    if (banner) { banner.classList.add('hidden'); }
+                    localStorage.removeItem(STORAGE_KEY);
+                    return;
+                }
+
+                var timerText = document.getElementById('timer-text');
+                if (timerText) { timerText.textContent = formatTime(remaining); }
+
+                setInterval(function () {
+                    var elapsed = Date.now() - startTime;
+                    var remaining = PREVIEW_DURATION - elapsed;
+                    if (remaining <= 0) {
+                        localStorage.removeItem(STORAGE_KEY);
+                        return;
+                    }
+                    var timerText = document.getElementById('timer-text');
+                    if (timerText) { timerText.textContent = formatTime(remaining); }
+                }, 1000);
+            }
+
+            // ============================================
+            // BLOCKED POPUP
+            // ============================================
+            function showBlockedPopup(functionName) {
+                var popup = document.getElementById('blocked-popup');
+                var overlay = document.getElementById('blocked-popup-overlay');
+
+                var messageText = 'Seja um membro VIP<br>para ter acesso a esta acao';
+                if (functionName) {
+                    var lowerName = functionName.toLowerCase();
+                    if (lowerName.includes('mais conversas') || lowerName.includes('carregar mais') || lowerName.includes('mais mensagens')) {
+                        messageText = 'Seja um membro VIP<br>para carregar mais conversas';
+                    } else if (lowerName.includes('buscar') || lowerName.includes('pesquisar') || lowerName.includes('search') || lowerName.includes('busca')) {
+                        messageText = 'Seja um membro VIP<br>para interagir com a Meta AI';
+                    } else if (lowerName.includes('pedidos') || lowerName.includes('pedido')) {
+                        messageText = 'Seja um membro VIP<br>para aceder os pedidos de mensagens';
+                    } else if (lowerName.includes('desbloquear') || lowerName.includes('conversa') || lowerName.includes('chat bloqueado')) {
+                        messageText = 'Seja um membro VIP<br>para desbloquear essa conversa';
+                    }
+                }
+
+                if (popup && overlay) {
+                    popup.innerHTML = '<h3 style="font-size:16px;font-weight:600;margin:0 0 10px 0;letter-spacing:-0.1px;opacity:0.95;">&#9888;&#65038; Acao bloqueada</h3>' +
+                        '<p style="font-size:13px;opacity:0.85;margin:0 0 20px 0;line-height:1.4;font-weight:400;">' + messageText + '</p>' +
+                        '<button type="button" style="background:rgba(249,249,249,0.3);color:#F9F9F9;padding:10px 20px;border-radius:10px;font-weight:500;font-size:13px;border:1px solid rgba(249,249,249,0.3);cursor:pointer;width:100%;backdrop-filter:blur(10px);">Adquirir Acesso VIP</button>';
+
+                    popup.classList.add('show');
+                    overlay.classList.add('show');
+
+                    overlay.onclick = function () {
+                        popup.classList.remove('show');
+                        overlay.classList.remove('show');
+                    };
+                }
+            }
+
+            // ============================================
+            // PROXY FUNCTION FOR INSTAGRAM IMAGES
+            // ============================================
+            function getProxyImageUrl(url) {
+                if (!url) return ''; if (url.startsWith('/api/image/')) return url;
+                if (url.includes('wsrv.nl') || url.includes('picsum.photos') || url.includes('pravatar.cc') || url.startsWith('data:')) {
+                    return url;
+                }
+                return 'https://wsrv.nl/?url=' + encodeURIComponent(url) + '&w=200&h=200&fit=cover';
+            }
+
+            // ============================================
+            // STORIES RENDERING
+            // ============================================
+            function renderStories() {
+                var container = document.getElementById('storiesContainer');
+                if (!container) return;
+
+                var storyLabels = [
+                    'Conte as novidades',
+                    'Preguica Hoje &#129393;&#129393;',
+                    'Alguem??',
+                    'alguem?? #tedio',
+                    'Ja nao aguento mais!',
+                    '&#128064;'
+                ];
+
+                // Own story
+                var ownStoryEl = document.createElement('div');
+                ownStoryEl.className = 'story-item';
+
+                var profilePicUrl = '';
+                try {
+                    var profileData = JSON.parse(localStorage.getItem('instagram_profile'));
+                    if (profileData && profileData.profile_pic_url) {
+                        profilePicUrl = profileData.profile_pic_url;
+                    }
+                } catch (e) { }
+
+                var avatarHtml = '';
+                if (profilePicUrl) {
+                    var proxiedUrl = getProxyImageUrl(profilePicUrl);
+                    avatarHtml = '<img src="' + proxiedUrl + '" alt="Foto pública do perfil" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\'">';
+                } else {
+                    avatarHtml = '<div style="width:100%;height:100%;background:#1f2937;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" fill="none" stroke="#666" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>';
+                }
+
+                ownStoryEl.innerHTML =
+                    '<button type="button" class="story-button">' +
+                    '<div class="story-bubble"><div class="speech-bubble"><span class="speech-bubble-text">' + storyLabels[0] + '</span></div></div>' +
+                    '<div class="story-avatar">' + avatarHtml + '</div>' +
+                    '<p class="story-name" style="color:#A8A8A8;">Sua nota</p>' +
+                    '</button>';
+                container.appendChild(ownStoryEl);
+
+                // Generate 6 fake stories
+                for (var i = 0; i < 6; i++) {
+                    var storyEl = document.createElement('div');
+                    storyEl.className = 'story-item';
+                    var label = storyLabels[i % storyLabels.length];
+                    var name = '***' + '*'.repeat(Math.floor(Math.random() * 4) + 4);
+
+                    storyEl.innerHTML =
+                        '<button type="button" class="story-button">' +
+                        '<div class="story-bubble"><div class="speech-bubble"><span class="speech-bubble-text" style="color:#F9F9F9;">' + label + '</span></div></div>' +
+                        '<div class="story-avatar" style="filter:blur(3px);"><div style="width:100%;height:100%;background:#' + randomColor() + ';border-radius:50%;"></div></div>' +
+                        '<p class="story-name">' + name + '</p>' +
+                        '</button>';
+                    container.appendChild(storyEl);
+                }
+            }
+
+            function randomColor() {
+                var colors = ['2d3748', '4a5568', '553c9a', '744210', '2c5282', '285e61', '702459', '1a365d', '234e52'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            // ============================================
+            // DYNAMIC DAY OF WEEK
+            // ============================================
+            function getDayOfWeekAgo(daysAgo) {
+                var diasSemana = ['domingo', 'segunda-feira', 'terca-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sabado'];
+                var hoje = new Date();
+                var dataPassada = new Date(hoje);
+                dataPassada.setDate(hoje.getDate() - daysAgo);
+                return diasSemana[dataPassada.getDay()];
+            }
+
+            // ============================================
+            // CHAT TIMER SYSTEM
+            // ============================================
+            function initChatTimers() {
+                var allChatTimes = document.querySelectorAll('.chat-time');
+                var chatTimers = [];
+
+                allChatTimes.forEach(function (timeElement, index) {
+                    var chatItem = timeElement.closest('.chat-item');
+                    if (chatItem && chatItem.classList.contains('locked')) return;
+
+                    var timeText = timeElement.textContent.trim();
+                    var startTime;
+
+                    if (!timeElement.hasAttribute('data-original-format')) {
+                        timeElement.setAttribute('data-original-format', timeText);
+                    }
+
+                    var chatIndex = chatItem ? chatItem.getAttribute('data-chat-index') : index;
+                    var storageKey = 'chat-time-start-' + chatIndex;
+                    var savedStartTime = localStorage.getItem(storageKey);
+
+                    if (savedStartTime) {
+                        startTime = parseInt(savedStartTime);
+                    } else {
+                        if (timeText.includes('Agora')) {
+                            startTime = Date.now();
+                        } else {
+                            var minMatch = timeText.match(/(\d+)\s*min/);
+                            var hourMatch = timeText.match(/(\d+)\s*h/);
+                            var dayMatch = timeText.match(/(\d+)\s*d/);
+
+                            if (minMatch) {
+                                startTime = Date.now() - (parseInt(minMatch[1]) * 60 * 1000);
+                            } else if (hourMatch) {
+                                startTime = Date.now() - (parseInt(hourMatch[1]) * 60 * 60 * 1000);
+                            } else if (dayMatch) {
+                                startTime = Date.now() - (parseInt(dayMatch[1]) * 24 * 60 * 60 * 1000);
+                            } else {
+                                startTime = Date.now();
+                            }
+                        }
+                        localStorage.setItem(storageKey, startTime.toString());
+                    }
+
+                    function updateChatTime() {
+                        var elapsed = Math.floor((Date.now() - startTime) / 1000);
+                        var minutes = Math.floor(elapsed / 60);
+
+                        if (minutes === 0) {
+                            timeElement.textContent = ' \u2022 Agora';
+                        } else if (minutes < 60) {
+                            timeElement.textContent = ' \u2022 ' + minutes + ' min';
+                        } else {
+                            var hours = Math.floor(minutes / 60);
+                            if (hours >= 24) {
+                                var days = Math.floor(hours / 24);
+                                timeElement.textContent = ' \u2022 ' + days + ' d';
+                            } else {
+                                timeElement.textContent = ' \u2022 ' + hours + ' h';
+                            }
+                        }
+                    }
+
+                    updateChatTime();
+                    chatTimers.push({ element: timeElement, update: updateChatTime, startTime: startTime });
+                });
+
+                if (chatTimers.length > 0) {
+                    setInterval(function () {
+                        chatTimers.forEach(function (timer) { timer.update(); });
+                    }, 60000);
+                }
+            }
+
+            // ============================================
+            // INFINITE SCROLL - FAKE CHATS
+            // ============================================
+            function initInfiniteScroll() {
+                var allChats = document.querySelectorAll('.chat-item:not(.fake-chat)');
+                var totalChats = allChats.length;
+                var visible = Math.min(15, totalChats);
+                var isLoading = false;
+                var fakeLoadCount = 0;
+                var fakeChatIndex = 0;
+                var loadingIndicator = document.getElementById('loading-indicator');
+                var messagesList = document.getElementById('messagesList');
+
+                allChats.forEach(function (chat, i) {
+                    chat.style.display = i < visible ? 'flex' : 'none';
+                });
+
+                function generateFakeChat(index) {
+                    var messages = ["Oi, tudo bem?", "Preciso te falar algo importante", "Vou te mandar uma foto", "Voce viu o que aconteceu?", "E ai, como foi?", "Tem um minuto?", "Preciso de ajuda", "Voce esta livre?", "Vamos conversar?", "Tem novidade"];
+                    var times = ["2 d", "3 d", "5 d", "5 d", "7 d", "8 d", "9 d", "10 d", "11 d", "12 d"];
+                    var randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                    var randomTime = times[index % times.length] || "2 d";
+                    var asteriskCount = Math.floor(Math.random() * 6) + 7;
+                    var blockedName = '';
+                    for (var j = 0; j < asteriskCount; j++) blockedName += '*';
+
+                    var div = document.createElement('div');
+                    div.className = 'chat-item locked fake-chat enchacao-de-linguica';
+                    div.setAttribute('data-fake-index', index);
+                    div.innerHTML =
+                        '<div class="chat-avatar-container"><div class="chat-avatar-wrapper locked-avatar"></div><div class="chat-lock-icon"><svg fill="none" stroke="#F9F9F9" viewBox="0 0 24 24" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div></div>' +
+                        '<div class="chat-content"><div class="chat-header"><h3 class="chat-name">' + blockedName + '</h3></div><div class="chat-message-row"><span class="chat-message-text">' + randomMessage + '</span><span class="chat-time"> \u2022 ' + randomTime + '</span></div></div>' +
+                        '<div class="chat-actions"><svg class="chat-camera-icon" width="19.2" height="19.2"><use href="#camera-icon"></use></svg></div>';
+                    return div;
+                }
+
+                window.addEventListener('scroll', function () {
+                    if (!isLoading && window.scrollY + window.innerHeight >= document.body.scrollHeight - 100) {
+                        if (visible < totalChats) {
+                            isLoading = true;
+                            if (loadingIndicator && messagesList) {
+                                messagesList.appendChild(loadingIndicator);
+                                loadingIndicator.style.display = 'flex';
+                            }
+                            setTimeout(function () {
+                                var previousVisible = visible;
+                                visible = Math.min(visible + 5, totalChats);
+                                allChats.forEach(function (chat, i) {
+                                    if (i >= previousVisible && i < visible) chat.style.display = 'flex';
+                                });
+                                if (loadingIndicator) loadingIndicator.style.display = 'none';
+                                isLoading = false;
+                            }, 2000);
+                        } else if (fakeLoadCount < 3) {
+                            isLoading = true;
+                            if (loadingIndicator && messagesList) {
+                                messagesList.appendChild(loadingIndicator);
+                                loadingIndicator.style.display = 'flex';
+                            }
+                            setTimeout(function () {
+                                fakeLoadCount++;
+                                var count = fakeLoadCount === 1 ? 7 : fakeLoadCount === 2 ? 14 : 0;
+                                if (fakeLoadCount === 3) {
+                                    showBlockedPopup('carregar mais mensagens');
+                                } else {
+                                    for (var i = 0; i < count; i++) {
+                                        messagesList.appendChild(generateFakeChat(fakeChatIndex));
+                                        fakeChatIndex++;
+                                    }
+                                }
+                                if (loadingIndicator && messagesList) messagesList.appendChild(loadingIndicator);
+                                if (loadingIndicator) loadingIndicator.style.display = 'none';
+                                isLoading = false;
+                            }, 2000);
+                        }
+                    }
+                });
+            }
+
+            // ============================================
+            // MARK CHAT AS READ
+            // ============================================
+            function markChatAsRead(chatItem) {
+                chatItem.classList.remove('chat-unread');
+                var dots = chatItem.querySelectorAll('.chat-unread-dot');
+                dots.forEach(function (dot) { dot.remove(); });
+                var name = chatItem.querySelector('.chat-name');
+                if (name) name.style.fontWeight = '';
+                var messageText = chatItem.querySelector('.chat-message-text');
+                if (messageText) {
+                    messageText.style.fontWeight = '';
+                    messageText.style.color = '';
+                    var chatIndex = chatItem.getAttribute('data-chat-index');
+                    if (chatIndex === '19') messageText.textContent = 'Estou na cidade e queria te ver';
+                }
+                var cameraIcon = chatItem.querySelector('.chat-camera-icon');
+                if (cameraIcon) cameraIcon.style.opacity = '';
+            }
+
+            // ============================================
+            // CLICK HANDLERS
+            // ============================================
+            function setupClickHandlers() {
+                // Locked chat click handler
+                var messagesList = document.getElementById('messagesList');
+                if (messagesList) {
+                    messagesList.addEventListener('click', function (e) {
+                        var chatItem = e.target.closest('.chat-item');
+                        if (chatItem) {
+                            var chatIndex = chatItem.getAttribute('data-chat-index');
+                            var isClickable = chatItem.classList.contains('chat-clickable') ||
+                                (chatIndex && ['15', '16', '17', '18', '19'].includes(chatIndex));
+
+                            if (!isClickable) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                showBlockedPopup('para desbloquear essa conversa');
+                            }
+                        }
+                    });
+                }
+
+                // Camera icon header
+                var cameraIconHeader = document.getElementById('camera-icon-header');
+                if (cameraIconHeader) {
+                    cameraIconHeader.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showBlockedPopup();
+                    });
+                }
+
+                // New message icon
+                var newMessageIcon = document.getElementById('new-message-icon');
+                if (newMessageIcon) {
+                    newMessageIcon.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showBlockedPopup();
+                    });
+                }
+
+                // Pedidos link
+                var pedidosLink = document.getElementById('pedidos-link');
+                if (pedidosLink) {
+                    pedidosLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showBlockedPopup('aos pedidos');
+                    });
+                }
+
+                // Search input blocker
+                var searchInput = document.querySelector('.search-input');
+                var typingTimer = null;
+                var typingStartTime = null;
+
+                if (searchInput) {
+                    searchInput.addEventListener('input', function (e) {
+                        if (e.target.value.length > 0) {
+                            if (!typingStartTime) {
+                                typingStartTime = Date.now();
+                                if (typingTimer) clearTimeout(typingTimer);
+                                typingTimer = setTimeout(function () {
+                                    showBlockedPopup('a busca');
+                                    searchInput.value = '';
+                                    typingStartTime = null;
+                                }, 3000);
+                            }
+                        } else {
+                            if (typingTimer) { clearTimeout(typingTimer); typingTimer = null; }
+                            typingStartTime = null;
+                        }
+                    });
+                }
+
+                // Back button
+                var backButton = document.getElementById('backButton');
+                if (backButton) {
+                    backButton.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        if (window.history.length > 1) {
+                            window.history.back();
+                        }
+                    });
+                }
+
+                // VIP button
+                var vipButton = document.getElementById('vipButton');
+                if (vipButton) {
+                    vipButton.addEventListener('click', function () {
+                        showBlockedPopup();
+                    });
+                }
+
+                // Clickable chats
+                var clickableChats = document.querySelectorAll('.chat-clickable');
+                clickableChats.forEach(function (chat) {
+                    chat.style.cursor = 'pointer';
+                    chat.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        var chatIndex = chat.getAttribute('data-chat-index');
+
+                        // Mark as read on click
+                        if (chat.classList.contains('chat-unread')) {
+                            markChatAsRead(chat);
+                        }
+
+                        // Show blocked popup for all clickable chats (since we don't have actual chat pages)
+                        showBlockedPopup('para desbloquear essa conversa');
+                    });
+                });
+            }
+
+            // ============================================
+            // INITIALIZATION
+            // ============================================
+            function init() {
+                // Dynamic day messages
+                var dynamicDayMessage = document.getElementById('dynamic-day-message');
+                if (dynamicDayMessage) {
+                    dynamicDayMessage.textContent = 'Enviado ' + getDayOfWeekAgo(2);
+                }
+
+                var dynamicDayMessage3Days = document.getElementById('dynamic-day-message-3days');
+                if (dynamicDayMessage3Days) {
+                    dynamicDayMessage3Days.textContent = 'Enviado ' + getDayOfWeekAgo(3);
+                }
+
+                // Set username from URL or default
+                var urlParams = new URLSearchParams(window.location.search);
+                var username = urlParams.get('username')
+                    || localStorage.getItem('espionado_username')
+                    || localStorage.getItem('instagram_profile')
+                    || 'usuario';
+                var headerUsername = document.getElementById('header-username');
+                if (headerUsername) {
+                    headerUsername.textContent = username.replace(/^@+/, '').trim();
+                }
+
+                renderStories();
+                initPreviewBanner();
+                initChatTimers();
+                initInfiniteScroll();
+                setupClickHandlers();
+            }
+
+            // Run when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+
+</html>

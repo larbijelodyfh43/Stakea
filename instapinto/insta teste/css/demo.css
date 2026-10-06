@@ -1,0 +1,16 @@
+:root { --demo-banner-height: 0px; }
+html:has(#simulation-banner) { --demo-banner-height: 76px; }
+html { scroll-padding-top: var(--demo-banner-height); }
+body { padding-top: var(--demo-banner-height) !important; }
+#simulation-banner { position:fixed !important; inset:0 0 auto 0 !important; z-index:2147483647 !important; box-sizing:border-box; min-height:var(--demo-banner-height); padding:10px 18px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; background:#facc15; color:#171717; font:12px/1.35 Arial,sans-serif; text-align:center; box-shadow:0 2px 10px #0006; }
+#simulation-banner strong { font-size:14px; letter-spacing:.07em; }
+#simulation-banner a { color:#171717; text-decoration:underline; font-weight:bold; }
+#limit-warning { display:none !important; }
+#main-header, body > .header { top:var(--demo-banner-height) !important; position:fixed !important; transform:none !important; transition:none !important; }
+#main-header.hidden { transform:none !important; }
+body:has(#main-header) { padding-top:calc(var(--demo-banner-height) + 54px) !important; }
+body:has(> .header) { padding-top:calc(var(--demo-banner-height) + 57px) !important; }
+#main-header + div > .hide-scrollbar { padding-top:4px !important; }
+body > .header + .search-wrapper { padding-top:4px !important; }
+#confirmModalOverlay { top:var(--demo-banner-height) !important; }
+@media(max-width:500px) { html:has(#simulation-banner) { --demo-banner-height:90px; } }
